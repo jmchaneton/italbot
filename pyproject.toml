@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "tata"
+version = "0.1.0"
+description = ""
+authors = ["juanchaneton <jmchaneton@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+selenium = "^4.8.2"
+webdriver-manager = "^4.0.1"
+twilio = "^8.10.1"
+ipython = "^8.17.2"
+selenium-wire = "^5.1.0"
+pandas = "^2.1.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+bot = "bot.bot:run_bot"
