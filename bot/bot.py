@@ -77,6 +77,8 @@ def get_chrome_webdriver(proxy_index:int=None):
                 'http': proxy,
             }
         }
+        print(f'using proxy {proxy}')
+
     driver = webdriver.Chrome(service=Service(executable_path=ChromeDriverManager().install()),
                             seleniumwire_options=options_seleniumWire, options=opts)
     return driver
@@ -134,10 +136,14 @@ def run_bot():
         "--n_attempts", required=False, default=1000, type=int
     )
 
+    parser.add_argument(
+        "-proxy", default=False, type=bool
+    )
+
     args = parser.parse_args()
 
     # Use 'options' instead of 'chrome_options'
-    proxy_index = 1
+    proxy_index = 1 if args.proxy else None
     driver = get_chrome_webdriver(proxy_index)
 
     # Initialize the driver
@@ -161,7 +167,7 @@ def run_bot():
     # Trying to click and check for message
     while True:
         n_attempts  = try_clicking(driver, button_xpath, message_xpath, max_attempts, wait_time)
-        if n_attempts is not None:
+        if n_attempts is not None and proxy_index is not None:
             max_attempts -= n_attempts
             print('Changing proxy')
             driver.quit()
