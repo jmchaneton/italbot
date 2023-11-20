@@ -19,6 +19,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import WebDriverException, NoSuchElementException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+from os import system
 
 
 
@@ -49,7 +50,7 @@ def send_email():
     --header 'Authorization: Bearer pk_prod_YHY9BKCG7BM718MB6SF65GSXPQ68' \
     --data '{
       "message": {
-        "to": {"email":"jmchaneton@gmail.com, juan@cimulate.ai", "phone_number": "+19176789106"},
+        "to": {"email":"jmchaneton@gmail.com, juan@cimulate.ai, ichaneton@gmail.com", "phone_number": "+19176789106"},
         "content": {
           "title": "Turnos en el consulado disponibles!",
           "body": "Parece que hay turnos!!!!"
@@ -107,6 +108,9 @@ def try_clicking(driver, button_xpath, message_xpath, max_attempts, wait_time):
             except TimeoutException:
                 print("Message not found!!. Sending email and stopping.")
                 send_email()
+                for _ in range(10):
+                    system('say Turnos disponibles!')
+                    time.sleep(1)
                 while(True):
                     _ = input()
                 
@@ -160,7 +164,7 @@ def run_bot():
   
     # Configuration
     button_xpath = "/html/body//a[contains(@href,'224')]"  # Replace with your button's xpath
-    message_xpath = "//button[contains(text(),'ok')]"  # Replace with your message's xpath
+    message_xpath = "//button[contains(text(),'ok') and @class='btn btn-blue']"  # Replace with your message's xpath
     max_attempts = args.n_attempts  # Max number of attempts
     wait_time = 10   # Time to wait between attempts in seconds
 
